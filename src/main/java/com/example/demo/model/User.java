@@ -26,6 +26,18 @@ public class User {
         return active;
     }
 
+    public void setActive(boolean active){
+        this.active=active;
+    }
+
+    public void resetCounter(){
+        this.incorrectLoginCounter=0;
+    }
+
+    public void addCounter(){
+        this.incorrectLoginCounter++;
+    }
+
     public int getIncorrectLoginCounter() {
         return incorrectLoginCounter;
     }

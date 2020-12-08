@@ -25,10 +25,14 @@ public class UserApiController {
     public ResponseEntity<Void> login(@RequestBody LoginDto loginDto) {
         LOGGER.info("--- check login data: {}", loginDto);
 
-        if(userService.checkLogin(loginDto.getLogin(), loginDto.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            if(userService.checkLogin(loginDto.getLogin(), loginDto.getPassword())) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

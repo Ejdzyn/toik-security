@@ -18,8 +18,27 @@ public class UserRepository {
     }
 
     public boolean checkLogin(final String login, final String password) {
-        // TODO: Prosze dokonczyc implementacje...
 
-        return false;
+        return usersDatabase.entrySet().stream().anyMatch(x->{
+            if(x.getValue().getLogin().equals(login)){
+                if(x.getValue().isActive()){
+                    if (x.getValue().getPassword().equals(password)){
+                        x.getValue().resetCounter();
+                        return true;
+                    } else {
+                        if(x.getValue().getIncorrectLoginCounter()<2){
+                            x.getValue().addCounter();
+                        } else {
+                            x.getValue().setActive(false);
+                        }
+                        return false;
+                    }
+                } else {
+                    throw new IllegalStateException("Account not active");
+                }
+            }
+
+            return false;
+        });
     }
 }
